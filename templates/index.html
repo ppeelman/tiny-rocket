@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Rockets</h1>
+{% endblock %}
+
+{% block content %}
+<form action="/load-rockets" method="POST">
+    <button type="submit">Load rockets 🚀</button>
+</form>
+<section class="rockets-grid">
+    {% for rocket in rockets %}
+    <article class="rocket">
+        <h1 class="rocket__name">{{ rocket.name }}</h1>
+        <span class="rocket__description">{{ rocket.description }}</span>
+        <section class="rocket__success-rate">
+            <label for="fuel">Success rate: {{rocket.success_rate_pct}}%</label>
+            <meter id="fuel" min="0" max="100" low="33" high="66" optimum="80"
+                   value="{{ rocket.success_rate_pct}}"></meter>
+        </section>
+    </article>
+    {% endfor %}
+</section>
+{% endblock %}
