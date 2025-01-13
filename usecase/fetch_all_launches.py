@@ -22,8 +22,6 @@ class FetchAllLaunchesUsecase:
         response = requests.post('https://api.spacexdata.com/v5/launches/query', json=options)
         launches = response.json()
 
-        print(launches)
-
         for launch in launches["docs"]:
             if len(launch["crew"]) != 0:
                 for crew_member in launch["crew"]:
