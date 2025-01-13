@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Text
+
 from db.config import Base
 
 
@@ -17,3 +18,11 @@ class Rocket(Base):
 
     def __repr__(self):
         return f'<Rocket {self.name!r}>'
+
+    def toPresented(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'success_rate_pct': self.success_rate_pct
+        }

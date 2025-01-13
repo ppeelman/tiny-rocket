@@ -1,33 +1,55 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, jsonify, request
+
 from db.config import db_session
-from db.models.rocket import Rocket
-import requests
+from usecase.fetch_all_launches import FetchAllLaunchesUsecase
+from usecase.load_rockets_from_api import LoadRocketsFromApiUsecase
+from usecase.get_all_rockets import GetAllRocketsUsecase
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def index():
-    rockets = Rocket.query.all()
-    return render_template('index.html', rockets=rockets)
+    page = request.args.get('page')
+
+    launches = FetchAllLaunchesUsecase.execute(page)
+
+    context = {
+        'launches': launches["docs"],
+        'next_page': launches["nextPage"],
+        'previous_page': launches["prevPage"]
+    }
+    return render_template('index.html', **context)
 
 
-@app.post("/load-rockets")
+@app.route("/rockets")
+def rockets_view():
+    rockets = GetAllRocketsUsecase.execute()
+    return render_template('rockets.html', rockets=rockets)
+
+
+# =======================================================
+# API endpoints
+# =======================================================
+
+@app.get("/api/launches")
+def get_all_launches():
+    page = request.args.get('page')
+    launches = FetchAllLaunchesUsecase.execute(page)
+    return jsonify(launches)
+
+
+@app.get("/api/rockets")
+def get_all_rockets():
+    rockets = GetAllRocketsUsecase.execute()
+    rockets_presented = [rocket.toPresented() for rocket in rockets]
+    return jsonify(rockets_presented)
+
+
+@app.post("/api/load-rockets")
 def load_rockets():
-    response = requests.get('https://api.spacexdata.com/v4/rockets')
-    data = response.json()
-
-    Rocket.query.delete()
-
-    for rocket_data in data:
-        rocket_data = Rocket(name=rocket_data['name'],
-                             description=rocket_data['description'],
-                             success_rate_pct=rocket_data['success_rate_pct'])
-        db_session.add(rocket_data)
-
-    db_session.commit()
-
-    return redirect("/", code=302)
+    LoadRocketsFromApiUsecase.execute()
+    return "Rockets successfully loaded into database!"
 
 
 @app.teardown_appcontext

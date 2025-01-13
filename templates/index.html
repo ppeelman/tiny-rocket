@@ -1,24 +1,41 @@
 {% extends 'base.html' %}
 
-{% block header %}
-<h1>Rockets</h1>
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+{% endblock %}
+
+{% block title %}
+<h1>SpaceX: Launches 🚀</h1>
+<a class="btn" href="/rockets">Check out our rockets ➞</a>
 {% endblock %}
 
 {% block content %}
-<form action="/load-rockets" method="POST">
-    <button type="submit">Load rockets 🚀</button>
-</form>
-<section class="rockets-grid">
-    {% for rocket in rockets %}
-    <article class="rocket">
-        <h1 class="rocket__name">{{ rocket.name }}</h1>
-        <span class="rocket__description">{{ rocket.description }}</span>
-        <section class="rocket__success-rate">
-            <label for="fuel">Success rate: {{rocket.success_rate_pct}}%</label>
-            <meter id="fuel" min="0" max="100" low="33" high="66" optimum="80"
-                   value="{{ rocket.success_rate_pct}}"></meter>
-        </section>
+<section class="grid">
+    {% for launch in launches %}
+    <article class="launch">
+        <h1 class="launch__name">{{ launch.name }}</h1>
+        <span class="launch__details">{{ launch.details }}</span>
+        <ul>
+            {% for crew_member in launch.crew %}
+            <li class="launch__crew-member">
+                <a href="{{crew_member.crew.wikipedia}}">
+                    {{crew_member.crew.name}} ({{crew_member.role}})
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
     </article>
     {% endfor %}
 </section>
+
+<div class="pagination">
+    {% if previous_page != None %}
+    <a href="/?page={{ previous_page }}">‹ Previous page</a>
+    {% endif %}
+    {% if next_page != None %}
+    <a href="/?page={{ next_page }}">Next page ›</a>
+    {% endif %}
+</div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
 {% endblock %}

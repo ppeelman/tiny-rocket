@@ -20,6 +20,12 @@ docker compose down
 docker compose down -v
 ```
 
+# Load all rockets into database
+
+```http request
+POST /api/load-rockets
+```
+
 # Run the app
 
 ```bash

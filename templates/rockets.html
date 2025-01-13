@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='rockets.css') }}">
+{% endblock %}
+
+{% block title %}
+<h1>SpaceX: Rockets 🚀</h1>
+<a style="margin-right: auto; margin-left: 1rem" href="/">Back to launches</a>
+<button id="load-rockets-btn" class="btn">Reload ⟳</button>
+{% endblock %}
+
+{% block content %}
+<section class="grid" id="rockets-grid">
+    {% for rocket in rockets %}
+    <article class="rocket">
+        <h1 class="rocket__name">{{ rocket.name }}</h1>
+        <span class="rocket__description">{{ rocket.description }}</span>
+        <section class="rocket__success-rate">
+            <label for="fuel">Success rate: {{rocket.success_rate_pct}}%</label>
+            <meter id="fuel" min="0" max="100" low="33" high="66" optimum="80"
+                   value="{{ rocket.success_rate_pct}}"></meter>
+        </section>
+    </article>
+    {% endfor %}
+</section>
+
+<script type="text/javascript" src="{{ url_for('static', filename='rockets.js') }}"></script>
+{% endblock %}
