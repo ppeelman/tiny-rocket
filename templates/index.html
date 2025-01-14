@@ -12,19 +12,10 @@
 {% block content %}
 <section class="grid">
     {% for launch in launches %}
-    <article class="launch">
+    <a href="/launches/{{ launch.id }}" class="launch">
         <h1 class="launch__name">{{ launch.name }}</h1>
         <span class="launch__details">{{ launch.details }}</span>
-        <ul>
-            {% for crew_member in launch.crew %}
-            <li class="launch__crew-member">
-                <a href="{{crew_member.crew.wikipedia}}">
-                    {{crew_member.crew.name}} ({{crew_member.role}})
-                </a>
-            </li>
-            {% endfor %}
-        </ul>
-    </article>
+    </a>
     {% endfor %}
 </section>
 

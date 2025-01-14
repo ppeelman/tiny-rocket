@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='launch.css') }}">
+{% endblock %}
+
+{% block title %}
+<h1>SpaceX: Rockets 🚀</h1>
+<a style="margin-right: auto; margin-left: 1rem" href="/">Back to launches</a>
+{% endblock %}
+
+{% block content %}
+<dl>
+    <dt>Name</dt>
+    <dd>{{launch.name}}</dd>
+
+    <dt>Details</dt>
+    <dd>{{launch.details}}</dd>
+
+    <dt>Success</dt>
+    <dd>{{launch.success}}</dd>
+
+    <dt>Flight number</dt>
+    <dd>{{launch.flight_number}}</dd>
+
+    <dt>Flight number</dt>
+    <dd>{{launch.flight_number}}</dd>
+
+    <dt>Crew</dt>
+    <dd>
+        <ul>
+            {% for crew_member in launch.crew %}
+            <li class="launch__crew-member">
+                <a href="{{crew_member.crew.wikipedia}}">
+                    {{crew_member.crew.name}} ({{crew_member.role}})
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </dd>
+</dl>
+
+
+{% endblock %}

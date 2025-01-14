@@ -1,7 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 
 from db.config import db_session
-from usecase.fetch_all_launches import FetchAllLaunchesUsecase
+
+from usecase.get_all_launches import FetchAllLaunchesUsecase
+from usecase.get_launch_detail import GetLaunchDetailUsecase
 from usecase.load_rockets_from_api import LoadRocketsFromApiUsecase
 from usecase.get_all_rockets import GetAllRocketsUsecase
 
@@ -26,6 +28,12 @@ def index():
 def rockets_view():
     rockets = GetAllRocketsUsecase.execute()
     return render_template('rockets.html', rockets=rockets)
+
+
+@app.route("/launches/<launch_id>")
+def launch_view(launch_id):
+    launch = GetLaunchDetailUsecase.execute(launch_id)
+    return render_template('launch_detail.html', launch=launch)
 
 
 # =======================================================
