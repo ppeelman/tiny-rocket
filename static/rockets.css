@@ -11,24 +11,7 @@
                                1px 2px 2.5px -2.5px hsl(var(--shadow-color) / 0.34);
 }
 
-body {
-    width: min(100%, 100ch);
-    margin: 3rem auto;
-    background-color: var(--background);
-    font-family: "Lora", serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-}
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    h1 {
-        margin: 0;
-    }
-}
 
 /* Rocket */
 

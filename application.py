@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    page = request.args.get('page')
+    page = request.args.get('page') or 1
 
     launches = FetchAllLaunchesUsecase.execute(page)
 

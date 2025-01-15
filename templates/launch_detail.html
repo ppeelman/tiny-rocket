@@ -5,40 +5,48 @@
 {% endblock %}
 
 {% block title %}
-<h1>SpaceX: Rockets 🚀</h1>
+<h1>{{launch.name }}</h1>
 <a style="margin-right: auto; margin-left: 1rem" href="/">Back to launches</a>
 {% endblock %}
 
 {% block content %}
-<dl>
-    <dt>Name</dt>
-    <dd>{{launch.name}}</dd>
+<main>
+    <section class="details-section">
+        <h1>Details</h1>
 
-    <dt>Details</dt>
-    <dd>{{launch.details}}</dd>
+        <dl>
+            <dt>Name</dt>
+            <dd>{{launch.name}}</dd>
 
-    <dt>Success</dt>
-    <dd>{{launch.success}}</dd>
+            <dt>Details</dt>
+            <dd>{{launch.details}}</dd>
 
-    <dt>Flight number</dt>
-    <dd>{{launch.flight_number}}</dd>
+            <dt>Success</dt>
+            <dd>{{launch.success}}</dd>
 
-    <dt>Flight number</dt>
-    <dd>{{launch.flight_number}}</dd>
+            <dt>Flight number</dt>
+            <dd>{{launch.flight_number}}</dd>
+        </dl>
+    </section>
 
-    <dt>Crew</dt>
-    <dd>
-        <ul>
+    <section class="crew-section">
+        <h1>Crew members</h1>
+
+        <ul class="crew-members">
             {% for crew_member in launch.crew %}
-            <li class="launch__crew-member">
-                <a href="{{crew_member.crew.wikipedia}}">
-                    {{crew_member.crew.name}} ({{crew_member.role}})
-                </a>
+            <li class="crew-member">
+                <a href="{{crew_member.crew.wikipedia}}" target="__blank" class="crew-member__image" style="background-image: url('{{crew_member.crew.image}}')"></a>
+                <p class="crew-member__name" >
+                    {{crew_member.crew.name}}
+                </p>
+                <p class="crew-member__role">
+                    {{crew_member.role}}
+                </p>
             </li>
             {% endfor %}
         </ul>
-    </dd>
-</dl>
+    </section>
+</main>
 
 
 {% endblock %}

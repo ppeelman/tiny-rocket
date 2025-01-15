@@ -20,17 +20,6 @@ body {
     font-style: normal;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    h1 {
-        margin: 0;
-    }
-}
-
-
 /* Rocket */
 
 

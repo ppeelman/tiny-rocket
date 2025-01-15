@@ -10,14 +10,22 @@ def toRocket(rocket_data):
 
 
 class LoadRocketsFromApiUsecase:
+    API_URL = "https://api.spacexdata.com/v4/rockets"
+
     @staticmethod
     def execute():
-        response = requests.get('https://api.spacexdata.com/v4/rockets')
-        data = response.json()
+        try:
+            response = requests.get(LoadRocketsFromApiUsecase.API_URL)
+            response.raise_for_status()
+            data = response.json()
 
-        Rocket.query.delete()
+            Rocket.query.delete()
 
-        for rocket_data in data:
-            db_session.add(toRocket(rocket_data))
+            for rocket_data in data:
+                db_session.add(toRocket(rocket_data))
 
-        db_session.commit()
+            db_session.commit()
+        except requests.exceptions.RequestException as e:
+            raise RuntimeError(f"Failed to fetch rockets: {e}")
+        except ValueError as e:
+            raise RuntimeError(f"Error processing rockets response JSON: {e}")
