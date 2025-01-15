@@ -6,18 +6,15 @@ class FetchAllLaunchesUsecase:
 
     @staticmethod
     def execute(page=1):
-        if not isinstance(page, int) or page < 1:
-            raise ValueError("Page must be a positive integer.")
-
-        options = {"options": {"limit": 5000, "page": page or 1}}
+        options = {"options": {"limit": 5, "page": page or 1}}
 
         try:
             response = requests.post(FetchAllLaunchesUsecase.API_URL, json=options)
             response.raise_for_status()
             launches = response.json()
 
-            # Filter launches with crew
-            launches["docs"] = [launch for launch in launches.get("docs", []) if launch.get("crew")]
+            # Filter launches with crew (also set limit to a very high number)
+            # launches["docs"] = [launch for launch in launches.get("docs", []) if launch.get("crew")]
 
             return launches
         except requests.exceptions.RequestException as e:

@@ -29,14 +29,16 @@
         </dl>
     </section>
 
+    {% if launch.crew is defined and launch.crew|length > 0 %}
     <section class="crew-section">
         <h1>Crew members</h1>
 
         <ul class="crew-members">
             {% for crew_member in launch.crew %}
             <li class="crew-member">
-                <a href="{{crew_member.crew.wikipedia}}" target="__blank" class="crew-member__image" style="background-image: url('{{crew_member.crew.image}}')"></a>
-                <p class="crew-member__name" >
+                <a href="{{crew_member.crew.wikipedia}}" target="__blank" class="crew-member__image"
+                   style="background-image: url('{{crew_member.crew.image}}')"></a>
+                <p class="crew-member__name">
                     {{crew_member.crew.name}}
                 </p>
                 <p class="crew-member__role">
@@ -46,6 +48,8 @@
             {% endfor %}
         </ul>
     </section>
+    {% endif %}
+
 </main>
 
 

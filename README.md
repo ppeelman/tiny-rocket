@@ -34,3 +34,15 @@ python -m flask --app application run
 
 # The app will be available at http://localhost:5000
 ```
+
+To only see launches with crew members, you should change code in `usescase/get_all_launches.py`:
+
+Change to:
+
+```python
+...
+options = {"options": {"limit": 10000, "page": page or 1}}
+...
+launches["docs"] = [launch for launch in launches.get("docs", []) if launch.get("crew")]
+...
+```
